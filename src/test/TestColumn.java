@@ -2,14 +2,19 @@ package test;
 
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
-import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
-import org.testng.annotations.Test;
 
 import FourRowSolitaire.Card;
 import FourRowSolitaire.Column;
 
-public class TestCase6 {
+/**
+ * @author SER 216 Team 7: Morgan Osborne, Julio Jovel, Kenneth Bonilla
+ * 
+ * This test set tests that the Column class works as expected - A King should be able to be added to an empty
+ * column, and any other card should not. A card of opposite color and 1 number less should be able to be added
+ * after the current card.
+ *
+ */
+public class TestColumn {
 	/**
 	 *  Tests that a Column is empty when it is generated
 	 */
@@ -131,6 +136,93 @@ public class TestCase6 {
 		// Since we popped the king of hearts in the last assert statement, we
 		// assume that the column is now empty.
 		AssertJUnit.assertTrue(col.peek() == null);
+	}
+	
+	/**
+	 *  Test tries to add a valid card without first checking if the move is valid. This is to test the 
+	 *  conditional statement in the column class.
+	 */
+	@Test
+	public void testAddValidCardToEmptyColumnBypassingIsValidMove(){
+		Column col = new Column(); // Generate new column
+		
+		Card king_of_hearts = new Card("Hearts", 13, 1, 52); // Generates king of hearts card
+		
+		col.push(king_of_hearts);
+		
+		// Since pushing the king of hearts should work since the column was empty,
+		// we expect that the number of the card will be 52
+		AssertJUnit.assertTrue(col.peek().getFullNumber() == 52);
+	}
+	
+	/**
+	 * Test tries to add an invalid card without first checking if the move is valid. This is to test the 
+	 * conditional statement in the column class.
+	 * 
+	 * This test fails because push() doesn't check for whether or not the column is empty
+	 */
+	@Test
+	public void testAddInvalidCardToEmptyColumnBypassingIsValidMove(){
+		Column col = new Column(); // Generates a new column
+		
+		Card queen_of_hearts = new Card("Hearts", 12, 1, 51); // Generates a new card
+		
+		col.push(queen_of_hearts); // push king of hearts onto the column
+		
+		// Since pushing the king of hearts should work since the column was empty,
+		// we expect that the number of the card will be 52
+		AssertJUnit.assertTrue(col.peek() == null);
+	}
+	
+	/**
+	 * Test tries to add an invalid card without first checking if the move is valid. This is to test the 
+	 * conditional statement in the column class.
+	 * 
+	 */
+	@Test
+	public void testAddInvalidCardBypassingIsValidMove(){
+		Column col = new Column(); // Generates a new column
+		
+		Card king_of_hearts = new Card("Hearts", 13, 1, 52); // Generates a new card
+	
+		col.push(king_of_hearts); // push king of hearts onto the column
+		
+		// Since pushing the king of hearts should work since the column was empty,
+		// we expect that the number of the card will be 52
+		AssertJUnit.assertTrue(col.peek().getFullNumber() == 52);
+		
+		Card five_of_spades = new Card("Spades", 5, 1, 5); // Generates the 4 of spades
+		Card card = new Card("Spades", 5, 1, 5); // Creates a placeholder card
+		
+		card = col.push(five_of_spades); // push 5 of spades onto the column
+	
+		//Since the five of spades was not valid, we expect card to equal null
+		AssertJUnit.assertTrue(card == null);
+	}
+	
+	/**
+	 * Test tries to add a valid card without first checking if the move is valid. This is to test the 
+	 * conditional statement in the column class.
+	 * 
+	 */
+	@Test
+	public void testAddValidCardBypassingIsValidMove(){
+		Column col = new Column(); // Generates a new column
+		
+		Card king_of_hearts = new Card("Hearts", 13, 1, 52); // Generates a new card
+	
+		col.push(king_of_hearts); // push king of hearts onto the column
+		
+		// Since pushing the king of hearts should work since the column was empty,
+		// we expect that the number of the card will be 52
+		AssertJUnit.assertTrue(col.peek().getFullNumber() == 52);
+		
+		Card queen_of_spades = new Card("Spades", 12, 1, 12); // Generates the 4 of spades
+		
+		col.push(queen_of_spades); // push 5 of spades onto the column
+
+		// Queen of spades was a valid card, so it should be the last card in the column
+		AssertJUnit.assertTrue(col.peek().getFullNumber() == 12);
 	}
 	
 }
