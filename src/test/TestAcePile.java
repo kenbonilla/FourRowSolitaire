@@ -9,9 +9,9 @@ import FourRowSolitaire.*;
 
 
 /**
- * This test is to test the Ace Pile
- * @author Team 7 SER216
- *
+ * @author SER 216 Team 7: Morgan Osborne, Julio Jovel, Kenneth Bonilla
+ * 
+ * This test checks that all methods in acePileTest() function as expected.
  */
 public class TestingAcePile {
   @Test
