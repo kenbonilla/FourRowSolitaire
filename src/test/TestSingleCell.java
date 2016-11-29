@@ -2,24 +2,16 @@ package test;
 
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
-import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
-import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
-import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
-import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
-import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
-import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
-import org.testng.annotations.Test;
 
 import FourRowSolitaire.Card;
 import FourRowSolitaire.SingleCell;
 
-public class TestCase4 {
+/**
+ * @author SER 216 Team 7: Morgan Osborne, Julio Jovel, Kenneth Bonilla
+ *
+ * This set of tests check that all of the methods in the SingleCell class function as expected.
+ */
+public class TestSingleCell {
 	/**
 	 *  Tests that a single cell is empty when it is generated
 	 */
@@ -103,21 +95,4 @@ public class TestCase4 {
 		// Check that the cell is now empty again
 		AssertJUnit.assertTrue(single_cell.isEmpty() == true);
 	}
-	
-	/*
-	@Test
-	public void testRemoveCardFromEmptyCell() {
-		SingleCell single_cell = new SingleCell(); // Generates a new single cell
-		
-		// Checks that the cell is initially empty
-		AssertJUnit.assertTrue(single_cell.isEmpty() == true);
-		
-		boolean valid = true;
-		
-		
-		
-		AssertJUnit.assertTrue(valid == false);
-		
-		
-	}*/
 }
