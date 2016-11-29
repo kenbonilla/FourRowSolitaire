@@ -3,23 +3,17 @@ package test;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 import org.testng.AssertJUnit;
-import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
-import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
-import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
-import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
 import java.util.LinkedList;
-
-import org.testng.AssertJUnit;
-import org.testng.annotations.Test;
-
 import FourRowSolitaire.Card;
 import FourRowSolitaire.Deck;
 
-public class TestCase2 {
+/**
+ * @author SER 216 Team 7: Morgan Osborne, Julio Jovel, Kenneth Bonilla
+ * 
+ * Tests that one card from each suit is generated.
+ *
+ */
+public class TestCardGeneration {
 
 	  	/**
 		 *  Tests that one card from each suit is generated.
@@ -47,5 +41,4 @@ public class TestCase2 {
 			}
 			
 		}	
-	  
 }
