@@ -1,86 +1,174 @@
 package Test;
 
-import java.util.LinkedList;
+package test;
 
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
-import FourRowSolitaire.*;
 
-
+import FourRowSolitaire.AcePile;
+import FourRowSolitaire.Card;
 
 /**
  * @author SER 216 Team 7: Morgan Osborne, Julio Jovel, Kenneth Bonilla
  * 
- * This test checks that all methods in acePileTest() function as expected.
+ *	This test checks that all methods in acePileTest() function as expected.
  */
-public class TestingAcePile {
-  @Test
-  public void acePileTest() {
-		  //identify and initialize variables that will be used.
-	Deck testDeck = new Deck(1);
-	Card topCard;
-	LinkedList<Integer> aceList = new LinkedList<Integer>();
-	LinkedList<Card> aceCards;
-	AcePile ace_deck = new AcePile("Spades");
-	String suit = "Spades";
-	  
-	  
-	  //add integers to the aceList LinkedList
-	for (int i=1; i<14;i++){
-	  aceList.add(i);
-	}
-	  
-	  //for testing purposes this allows the tester to see the items 
-	  //in aceList
-//	  for(Integer i: aceList){
-//		  System.out.println(i);
-//	  }
-	  
-	  //call to add specific cards through the getDeck Method
-	  //and add them to the LinkedList<Cards>
-	aceCards = testDeck.getDeck(aceList);
-	  
-	  //Print line to show that ace_deck is empty and assertion
-	AssertJUnit.assertTrue(ace_deck.isEmpty());
-	System.out.println("Ace deck is empty: "+ace_deck.isEmpty());
-	  
-	  //for testing purposes this allows us to print out the cards
-//	  for (Card card: aceCards){
-//		  System.out.println(card.getSuit()+" "+card.getFullNumber());
-//	  }
-	  
-	  
-	  //Use a for each loop to push each card onto the ace_deck pile
-	for (Card card: aceCards){
-		ace_deck.push(card);
-	 }
-	  
-	  
-	//assertion and printline that ace_deck is no longer empty  
-	AssertJUnit.assertFalse(ace_deck.isEmpty());
-	System.out.println("Ace deck is empty: "+ace_deck.isEmpty());
-	
-	//check to see if ace_deck is full by checking the last card in the deck
-	//and making sure it is the highest card that can be in the deck.
-	
-	int aceSize = 13;
-	topCard= ace_deck.peek();
 
-	
-	//Assertion and printline that ace_deck is filled and top card is the same suit
-	AssertJUnit.assertEquals(aceSize, topCard.getFullNumber());
-	AssertJUnit.assertEquals(suit, topCard.getSuit());
-	System.out.println("Passed, ace deck pile filled and top card is a Spade.");
-	
-	//for loop to empty ace_deck using pop()
-	for (int i=1; i<14;i++){
-		ace_deck.pop();
+public class TestAcePile {
+	/**
+	 *  Checks that the ace pile is generated with the correct suit.
+	 */
+	@Test
+	public void testAcePileGeneration() {
+		AcePile ace_pile = new AcePile("Spades"); // Generates new ace pile for Spades suit
+	  
+		// The suit of the ace_pile should be stored as spades
+		AssertJUnit.assertTrue(ace_pile.getSuit() == "Spades");
+  	}
+  
+	/**
+	 *  Tests that the right number of valid cards were added to the acePile
+	 */
+	@Test
+  	public void testAddValidSuitCardsToAcePile() {
+		AcePile ace_pile = new AcePile("Spades"); // Generates new ace pile for Spades suit
+	  
+		// The suit of the ace_pile should be stored as spades
+		AssertJUnit.assertTrue(ace_pile.getSuit() == "Spades");
+	  
+		// Pushes each card of the suit onto the ace pile from ace to king
+		for(int i = 1; i <= 13 ; i++)
+		{
+			Card card = new Card(ace_pile.getSuit(), i, 1, i); // Generates new card
+			if(ace_pile.isValidMove(card)) // Checks if the card is valid
+				ace_pile.push(card); // Pushes card onto ace pile
+	  	}
+		
+		// Checks that the ace_pile has the right amount of cards in it
+		AssertJUnit.assertTrue(ace_pile.length() == 13);
+		
+		// And checks that the last card is the King
+		AssertJUnit.assertTrue(ace_pile.pop().getFullNumber() == 13);
 	}
 	
-	//assertion and printline showing that ace_deck is empty again
-	AssertJUnit.assertTrue(ace_deck.isEmpty());
-	System.out.println("Ace deck is empty: "+ace_deck.isEmpty());  
+	@Test
+	public void testAddingInvalidCardsToEmptyAcePile() {
+		AcePile ace_pile = new AcePile("Spades"); // Generates new ace pile for Spades suit
+		  
+		// The suit of the ace_pile should be stored as spades
+		AssertJUnit.assertTrue(ace_pile.getSuit() == "Spades");
+		 
+		Card card = new Card("Spades", 2, 1, 2);
+		if(ace_pile.isValidMove(card))
+			ace_pile.push(card);
+		
+		// Expect the ace pile to be empty since the 2 of spades was not a valid card
+		AssertJUnit.assertTrue(ace_pile.length() == 0);
+	}
 	
-  }
- 
+	/**
+	 *  Tests that all of the cards were pushed into the ace pile in order
+	 *  and that the ace pile is able to be cleared
+	 */
+	@Test
+	public void testClearingTheAcePile() {
+		AcePile ace_pile = new AcePile("Spades"); // Generates new ace pile for Spades suit
+		  
+		// The suit of the ace_pile should be stored as spades
+		AssertJUnit.assertTrue(ace_pile.getSuit() == "Spades");
+	  
+		// Pushes each card of the suit onto the ace pile from ace to king
+		for(int i = 1; i <= 13 ; i++)
+		{
+			Card card = new Card(ace_pile.getSuit(), i, 1, i); // Generates new card
+			if(ace_pile.isValidMove(card)) // Checks if the card is valid
+				ace_pile.push(card); // Pushes card onto ace pile
+	  	}
+		
+		// Checks that the ace_pile has the right amount of cards in it
+		AssertJUnit.assertTrue(ace_pile.length() == 13);
+		
+		// Clears the ace_pile and checks that each card removed is the correct
+		// card that comes before the last card removed from King to Ace
+		for(int j = 13; j >= 1; j--)
+		{
+			AssertJUnit.assertTrue(ace_pile.pop().getFullNumber() == j);
+		}
+	}
+	
+	/**
+	 *  Test tries to add a valid card without first checking if the move is valid. This is to test the 
+	 *  conditional statement in the push() method of the AcePile class.
+	 */
+	@Test
+	public void testAddValidCardsToEmptyAcePileBypassingIsValidMove(){
+		AcePile ace_pile = new AcePile("Spades"); // Generates new ace pile for Spades suit
+		  
+		// The suit of the ace_pile should be stored as spades
+		AssertJUnit.assertTrue(ace_pile.getSuit() == "Spades");
+		
+		// Pushes each card of the suit onto the ace pile from ace to king
+		for(int i = 1; i <= 13 ; i++)
+		{
+			Card card = new Card(ace_pile.getSuit(), i, 1, i); // Generates new card
+			ace_pile.push(card); // Pushes card onto ace pile without checking isValidMove()
+		 }
+				
+		// Checks that the ace_pile has the right amount of cards in it
+		AssertJUnit.assertTrue(ace_pile.length() == 13);
+				
+		// Clears the ace_pile and checks that each card removed is the correct
+		// card that comes before the last card removed from King to Ace
+		for(int j = 13; j >= 1; j--)
+		{
+			AssertJUnit.assertTrue(ace_pile.pop().getFullNumber() == j);
+		}
+	}
+	
+	/**
+	 * Test tries to add an invalid card without first checking if the move is valid. This is to test the 
+	 * conditional statement in the push() method of the AcePile class.
+	 */
+	@Test
+	public void testAddInvalidCardToEmptyColumnBypassingIsValidMove(){
+		AcePile ace_pile = new AcePile("Spades"); // Generates new ace pile for Spades suit
+		  
+		// The suit of the ace_pile should be stored as spades
+		AssertJUnit.assertTrue(ace_pile.getSuit() == "Spades");
+		 
+		Card card = new Card("Spades", 2, 1, 2);
+		ace_pile.push(card);
+		
+		// Expect the ace pile to be empty since the 2 of spades was not a valid card
+		AssertJUnit.assertTrue(ace_pile.length() == 0);
+	}
+	
+	/**
+	 * Test tries to add an invalid card without first checking if the move is valid. This is to test the 
+	 * conditional statement in the push() method of the AcePile class.
+	 * 
+	 */
+	@Test
+	public void testAddInvalidCardBypassingIsValidMove(){
+		AcePile ace_pile = new AcePile("Spades"); // Generates new ace pile for Spades suit
+		  
+		// The suit of the ace_pile should be stored as spades
+		AssertJUnit.assertTrue(ace_pile.getSuit() == "Spades");
+		
+		Card ace_of_spades = new Card("Spades", 1, 1, 1); // Generates new card
+		ace_pile.push(ace_of_spades); // Pushes card onto ace pile without checking isValidMove()
+				
+		// Checks that the ace_pile has only the ace in it
+		AssertJUnit.assertTrue(ace_pile.length() == 1);
+		AssertJUnit.assertTrue(ace_pile.getCardAtLocation(0).getFullNumber() == 1);
+		
+		Card king_of_spades = new Card("Spades", 13, 1, 13); // Generates new card
+		ace_pile.push(king_of_spades); // Attempts to push card onto ace pile without checking isValidMove()
+	
+		// Checks that the ace pile still only has one card on it
+		AssertJUnit.assertTrue(ace_pile.length() == 1);
+		
+		AssertJUnit.assertTrue(ace_pile.peek().getNumber() == Card.ACE);
+	}
+	
 }
